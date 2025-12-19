@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Guessing Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Tambahan animasi background agar lebih hidup */
+      @keyframes gradient-animation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .animate-gradient {
+        background-size: 200% 200%;
+        animation: gradient-animation 6s ease infinite;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700 animate-gradient min-h-screen flex items-center justify-center p-4"
+  >
+    <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 md:p-8 max-w-md w-full border border-white/20">
+      
+      <h1 class="text-2xl md:text-3xl font-extrabold text-center text-gray-800 mb-2">
+        🎯 Number Guessing
+      </h1>
+      <p class="text-center text-gray-500 mb-6 text-sm md:text-base">
+        Can you guess the number between 1 and 100?
+      </p>
+
+      <div id="gameContainer">
+        <div class="mb-6">
+          <label
+            for="guessInput"
+            class="block text-sm font-bold text-gray-700 mb-2"
+          >
+            Enter your guess:
+          </label>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <input
+              type="number"
+              id="guessInput"
+              min="1"
+              max="100"
+              placeholder="1-100"
+              class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all shadow-sm text-center sm:text-left text-lg"
+            />
+            <button
+              id="submitBtn"
+              class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl hover:from-purple-700 hover:to-pink-700 focus:ring-4 focus:ring-purple-300 transition-all transform active:scale-95 shadow-lg w-full sm:w-auto"
+            >
+              Guess!
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="feedback"
+          class="mb-6 p-4 rounded-xl text-center font-bold text-lg hidden transition-all duration-300"
+        >
+          </div>
+
+        <div class="text-center mb-6 bg-gray-50 rounded-lg p-3 border border-gray-100">
+          <p class="text-gray-600 text-sm uppercase tracking-wide font-semibold">
+            Attempts remaining
+          </p>
+          <span id="attemptsLeft" class="text-3xl font-black text-indigo-600">10</span>
+        </div>
+
+        <div id="previousGuesses" class="mb-2 hidden">
+          <p class="text-xs text-gray-400 mb-2 text-center uppercase tracking-wider font-bold">History</p>
+          <div id="guessList" class="flex flex-wrap justify-center gap-2">
+            </div>
+            
+        </div>
+      </div>
+
+      <div id="gameOverContainer" class="text-center hidden animate-fade-in">
+        <div id="gameOverMessage" class="mb-8">
+          </div>
+        <button
+          id="resetBtn"
+          class="w-full px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-emerald-700 focus:ring-4 focus:ring-green-300 transition-all transform hover:-translate-y-1 shadow-lg flex items-center justify-center gap-2"
+        >
+          <span>🎮</span> Play Again
+        </button>
+      </div>
+      <footer class="font-extrabold text-center text-gray-800 mb-2 mt-6 hover:text-purple-600 transition-colors">
+        <div class="text-xl md:text-2xl ">Tommy Poernomo</div>
+        <div>Copyright © 2025 </div>
+      </footer>
+    </div>
+    <script src="../assets/js/number-guessing-game.js"></script>
+  </body>
+</html>

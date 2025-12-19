@@ -1,0 +1,47 @@
+        /* Animasi sederhana untuk hasil
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Animasi Fade In untuk perpindahan layar */
+/*
+        .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+} */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Styling Partikel Angka (+1) saat diklik */
+.click-particle {
+    position: absolute;
+    pointer-events: none; /* Agar klik tembus ke bawahnya */
+    animation: floatUp 0.8s ease-out forwards;
+    font-weight: bold;
+    color: #6366f1; /* Warna Indigo-500 */
+    font-size: 1.5rem;
+    z-index: 50;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-80px) scale(1.5);
+    }
+}
