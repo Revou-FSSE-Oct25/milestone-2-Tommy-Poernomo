@@ -1,11 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RevoFun - Play Simple Games</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    
+<body class="bg-gray-100 dark:bg-slate-900 text-slate-800 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300">
+
+    <nav class="w-full bg-white dark:bg-slate-800 shadow-md p-4 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400 tracking-tighter">
+                Revo<span class="text-slate-800 dark:text-white">Fun</span>
+            </a>
+            <div class="flex gap-3">
+                <button onclick="toggleLanguage()" class="btn-icon">🌐 <span id="langDisplay">ID</span></button>
+                <button onclick="toggleTheme()" class="btn-icon"><span id="themeIcon">☀️</span></button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="text-center py-20 px-4 fade-in">
+        <h1 class="text-5xl md:text-6xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600" data-i18n="heroTitle">
+            Mainkan Keseruan.
+        </h1>
+        <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-8" data-i18n="heroDesc">
+            Platform game browser sederhana untuk mengisi waktu luangmu. Tanpa download, langsung main!
+        </p>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 pb-20 grid grid-cols-1 md:grid-cols-3 gap-8 fade-in">
+        
+        <a href="games/fast-click-game.html" class="group bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2 border border-slate-200 dark:border-slate-700">
+            <div class="h-40 bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center text-6xl">
+                👆
+            </div>
+            <div class="p-6">
+                <h3 class="text-xl font-bold mb-2" data-i18n="game1Title">Speed Clicker</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="game1Desc">Uji kecepatan jarimu dalam 10 detik!</p>
+            </div>
+        </a>
+
+        <a href="games/number-guessing-game.html" class="group bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2 border border-slate-200 dark:border-slate-700">
+            <div class="h-40 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-6xl">
+                🔢
+            </div>
+            <div class="p-6">
+                <h3 class="text-xl font-bold mb-2" data-i18n="game2Title">Tebak Angka</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="game2Desc">Asah instingmu menebak angka misterius.</p>
+            </div>
+        </a>
+
+        <a href="games/rock-paper-scissors-game.html" class="group bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2 border border-slate-200 dark:border-slate-700">
+            <div class="h-40 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-6xl">
+                ✊✋✌️
+            </div>
+            <div class="p-6">
+                <h3 class="text-xl font-bold mb-2" data-i18n="game3Title">Suit Jepang</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="game3Desc">Batu, Gunting, Kertas klasik melawan CPU.</p>
+            </div>
+        </a>
+
+    </main>
+
+    <footer class="text-center py-6 text-slate-500 text-sm border-t border-slate-200 dark:border-slate-800">
+        &copy; 2025 RevoFun Gaming Company. Developed by Tommy Poernomo.
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <style>
+        .btn-icon { @apply bg-slate-200 dark:bg-slate-700 p-2 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition; }
+    </style>
 </body>
 </html>
