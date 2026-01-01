@@ -3,104 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speed Clicker Challenge</title>
-    
+    <title>Speed Clicker - RevoFun</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    animation: {
-                        'pulse-fast': 'pulse 0.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'pop': 'pop 0.1s ease-in-out'
-                    },
-                    keyframes: {
-                        pop: {
-                            '0%, 100%': { transform: 'scale(1)' },
-                            '50%': { transform: 'scale(0.95)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <link rel="stylesheet" href="../css/style.css">
+    <script> tailwind.config = { darkMode: 'class' }; </script>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body class="bg-gray-100 dark:bg-slate-900 text-slate-800 dark:text-white min-h-screen flex flex-col items-center font-sans transition-colors duration-300">
 
     <nav class="w-full max-w-2xl p-4 flex justify-between items-center z-50">
-        <a href="#" class="flex items-center gap-2 font-bold text-lg hover:text-indigo-500 transition">
+        <a href="../index.html" class="flex items-center gap-2 font-bold text-lg hover:text-indigo-500 transition">
             <span>🏠</span> <span data-i18n="homeBtn">Home</span>
         </a>
-        
         <div class="flex gap-4">
-            <button onclick="toggleLanguage()" class="bg-white dark:bg-slate-800 p-2 rounded-lg shadow border border-slate-200 dark:border-slate-700 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition">
-                🌐 <span id="langDisplay">ID</span>
-            </button>
-            <button onclick="toggleTheme()" class="bg-white dark:bg-slate-800 p-2 rounded-lg shadow border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition">
-                <span id="themeIcon" class="text-lg">☀️</span>
-            </button>
+            <button onclick="toggleLanguage()" class="bg-white dark:bg-slate-800 p-2 rounded-lg shadow border border-slate-200 dark:border-slate-700 text-sm font-semibold">🌐 <span id="langDisplay">ID</span></button>
+            <button onclick="toggleTheme()" class="bg-white dark:bg-slate-800 p-2 rounded-lg shadow border border-slate-200 dark:border-slate-700"><span id="themeIcon">☀️</span></button>
         </div>
     </nav>
 
     <div class="flex-grow flex items-center justify-center w-full p-4">
-        <div class="max-w-md w-full bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 transition-colors duration-300 relative min-h-[500px] flex flex-col">
+        <div class="max-w-md w-full bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 relative min-h-[550px] flex flex-col">
             
-            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 p-6 text-center shadow-lg relative z-10">
-                <h1 class="text-3xl font-bold uppercase tracking-wider text-white drop-shadow-md" data-i18n="gameTitle">SPEED CLICKER</h1>
-                <p class="text-indigo-100 text-xs mt-1" data-i18n="gameSubtitle">Seberapa cepat jarimu?</p>
+            <div class="bg-gradient-to-r from-red-500 to-pink-600 p-6 text-center shadow-lg relative z-10">
+                <h1 class="text-3xl font-bold uppercase text-white drop-shadow-md" data-i18n="gameTitle">SPEED CLICKER</h1>
+                <p class="text-red-100 text-xs mt-1" data-i18n="gameSubtitle">Seberapa cepat jarimu?</p>
             </div>
 
             <div id="screen-menu" class="p-8 flex flex-col items-center justify-between flex-grow fade-in space-y-6">
                 <div class="w-full">
-                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2" data-i18n="nicknameLabel">Nama Panggilan</label>
-                    <input type="text" id="nicknameInput" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition" placeholder="Player 1">
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2" data-i18n="nicknameLabel">Nama Panggilan</label>
+                    <input type="text" id="nicknameInput" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Player 1">
                 </div>
-
+                
                 <div class="w-full bg-slate-100 dark:bg-slate-700/50 rounded-xl p-4 border border-slate-200 dark:border-slate-600">
-                    <h3 class="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-3 text-center border-b border-slate-300 dark:border-slate-600 pb-2" data-i18n="leaderboardTitle">Papan Skor Tertinggi</h3>
-                    <ul id="leaderboardList" class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                        <li class="text-center italic opacity-50">Loading...</li>
+                    <h3 class="text-sm font-bold text-red-600 dark:text-red-400 uppercase mb-2 text-center" data-i18n="leaderboardTitle">Top Skor</h3>
+                    <ul id="leaderboardList" class="space-y-2 text-sm text-center min-h-[60px] flex flex-col justify-center">
+                        <li class="italic text-slate-400">Loading...</li>
                     </ul>
                 </div>
 
-                <div class="w-full space-y-3">
-                    <p class="text-xs text-center text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-900/50 p-2 rounded" data-i18n="instructionShort">Klik tombol sebanyak mungkin dalam 10 detik!</p>
-                    <button onclick="startGame()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg transition transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2">
+                <div class="w-full text-center space-y-4">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700" data-i18n="instructionShort">
+                        Klik tombol merah/tombol berlogo telunjuk tangan sebanyak mungkin dalam 10 detik!
+                    </p>
+                    <button onclick="startGame()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-xl shadow-lg transition transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2">
                         🚀 <span data-i18n="startBtn">MULAI MAIN</span>
                     </button>
                 </div>
             </div>
 
             <div id="screen-game" class="hidden flex-grow flex flex-col items-center justify-center p-6 relative overflow-hidden">
-                <div class="absolute top-4 w-full px-8 flex justify-between font-mono text-xl font-bold">
-                    <div class="text-indigo-500 dark:text-indigo-400">TIME: <span id="timerDisplay">10</span>s</div>
-                    <div class="text-pink-500 dark:text-pink-400">SCORE: <span id="scoreDisplay">0</span></div>
+                <div class="absolute top-6 w-full px-8 flex justify-between font-mono text-xl font-bold z-30">
+                    <div class="text-slate-500 dark:text-slate-300">TIME: <span id="timerDisplay" class="text-red-500">10</span>s</div>
+                    <div class="text-slate-500 dark:text-slate-300">SCORE: <span id="scoreDisplay" class="text-green-500">0</span></div>
                 </div>
 
-                <button id="clickBtn" onmousedown="registerClick(event)" class="relative group w-48 h-48 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-[0_10px_30px_rgba(99,102,241,0.5)] active:shadow-none transition-all duration-75 flex items-center justify-center border-4 border-indigo-300 dark:border-slate-700 hover:scale-105 active:scale-95 z-20 select-none -webkit-tap-highlight-color-transparent">
-                    <div class="text-6xl group-hover:rotate-12 transition-transform duration-200">👆</div>
-                    <div class="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                <button id="clickBtn" onmousedown="registerClick(event)" class="relative group w-52 h-52 rounded-full bg-gradient-to-br from-red-500 to-pink-600 shadow-[0_10px_30px_rgba(220,38,38,0.5)] active:shadow-none transition-transform duration-75 flex items-center justify-center border-4 border-red-300 dark:border-red-900 hover:scale-105 active:scale-95 z-20 select-none -webkit-tap-highlight-color-transparent outline-none">
+                    <div class="text-7xl pointer-events-none group-hover:-rotate-12 transition-transform duration-200">👆</div>
+                    <div class="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity pointer-events-none"></div>
                 </button>
 
-                <p class="mt-8 text-slate-400 animate-pulse text-sm" data-i18n="tapHint">TAP TAP TAP!</p>
+                <p class="mt-8 text-slate-400 animate-pulse text-sm font-bold tracking-widest" data-i18n="tapHint">TAP TAP TAP!</p>
             </div>
 
             <div id="screen-result" class="hidden flex-grow flex flex-col items-center justify-center p-8 text-center fade-in">
                 <div class="text-6xl mb-4">🏁</div>
-                <h2 class="text-2xl font-bold mb-2" data-i18n="timeUp">WAKTU HABIS!</h2>
+                <h2 class="text-2xl font-bold mb-2 text-slate-800 dark:text-white" data-i18n="timeUp">WAKTU HABIS!</h2>
                 
-                <div class="bg-slate-100 dark:bg-slate-700/50 rounded-2xl p-6 w-full mb-6 border border-slate-200 dark:border-slate-600">
+                <div class="bg-slate-100 dark:bg-slate-700/50 rounded-2xl p-6 w-full mb-6 border border-slate-200 dark:border-slate-600 shadow-inner">
                     <p class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-widest" data-i18n="finalScoreLabel">Skor Akhir</p>
-                    <div class="text-5xl font-black text-indigo-600 dark:text-indigo-400 mt-2" id="finalScoreDisplay">0</div>
-                    <p class="text-xs text-slate-500 mt-2 italic" id="newRecordMsg"></p>
+                    <div class="text-6xl font-black text-red-600 dark:text-red-500 mt-2" id="finalScoreDisplay">0</div>
+                    <p class="text-xs text-orange-500 mt-2 font-bold h-5" id="newRecordMsg"></p>
                 </div>
 
                 <div class="w-full space-y-3">
-                    <button onclick="resetGame()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg transition">
+                    <button onclick="startGame()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">
                         🔄 <span data-i18n="playAgainBtn">Main Lagi</span>
                     </button>
                     <button onclick="backToMenu()" class="w-full bg-transparent border-2 border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold py-3 rounded-xl transition">

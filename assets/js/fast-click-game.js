@@ -2,11 +2,12 @@
 const i18n = {
     id: {
         homeBtn: "Beranda",
-        gameTitle: "KLIK KILAT",
-        gameSubtitle: "Uji kecepatan jari Anda!",
+        gameTitle: "SPEED CLICKER",
+        gameSubtitle: "Seberapa cepat jarimu?",
         nicknameLabel: "NAMA PEMAIN",
         leaderboardTitle: "PAPAN SKOR TERTINGGI",
-        instructionShort: "Klik tombol merah sebanyak mungkin dalam 10 detik!",
+        // Instruksi spesifik yang diminta
+        instructionShort: "Klik tombol merah/tombol berlogo telunjuk tangan sebanyak mungkin dalam 10 detik!",
         startBtn: "MULAI MAIN",
         tapHint: "TEKAN SECEPAT MUNGKIN!",
         timeUp: "WAKTU HABIS!",
@@ -18,10 +19,10 @@ const i18n = {
     en: {
         homeBtn: "Home",
         gameTitle: "SPEED CLICKER",
-        gameSubtitle: "Test your finger speed!",
+        gameSubtitle: "How fast are your fingers?",
         nicknameLabel: "PLAYER NAME",
         leaderboardTitle: "LEADERBOARD",
-        instructionShort: "Click the button as many times as you can in 10s!",
+        instructionShort: "Click the red button/index finger logo button as much as possible in 10 seconds!",
         startBtn: "START GAME",
         tapHint: "TAP AS FAST AS YOU CAN!",
         timeUp: "TIME IS UP!",
@@ -43,7 +44,7 @@ let gameActive = false;
 document.addEventListener('DOMContentLoaded', () => {
     loadLeaderboard();
     
-    // Cek LocalStorage untuk tema
+    // Logic Dark Mode
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
         document.getElementById('themeIcon').textContent = '☀️';
@@ -53,19 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- THEME & LANGUAGE SWITCHER ---
+// --- TOGGLE FUNCTIONS ---
 function toggleTheme() {
     const html = document.documentElement;
     const icon = document.getElementById('themeIcon');
-    
     if (html.classList.contains('dark')) {
-        html.classList.remove('dark');
-        localStorage.theme = 'light';
-        icon.textContent = '🌙';
+        html.classList.remove('dark'); localStorage.theme = 'light'; icon.textContent = '🌙';
     } else {
-        html.classList.add('dark');
-        localStorage.theme = 'dark';
-        icon.textContent = '☀️';
+        html.classList.add('dark'); localStorage.theme = 'dark'; icon.textContent = '☀️';
     }
 }
 
@@ -73,23 +69,31 @@ function toggleLanguage() {
     currentLang = currentLang === 'id' ? 'en' : 'id';
     document.getElementById('langDisplay').textContent = currentLang.toUpperCase();
     
-    // Update semua elemen yang punya atribut data-i18n
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (i18n[currentLang][key]) {
             el.textContent = i18n[currentLang][key];
         }
     });
-    loadLeaderboard(); // Refresh teks leaderboard
+    loadLeaderboard();
 }
 
 // --- GAME LOGIC ---
+
 function switchScreen(screenName) {
+    // Sembunyikan semua layar
     ['screen-menu', 'screen-game', 'screen-result'].forEach(id => {
         document.getElementById(id).classList.add('hidden');
+        document.getElementById(id).classList.remove('fade-in'); // Reset animasi
     });
-    document.getElementById(screenName).classList.remove('hidden');
-    document.getElementById(screenName).classList.add('fade-in');
+    
+    // Tampilkan layar target
+    const target = document.getElementById(screenName);
+    target.classList.remove('hidden');
+    
+    // Trigger Reflow untuk restart animasi CSS
+    void target.offsetWidth; 
+    target.classList.add('fade-in');
 }
 
 function startGame() {
@@ -100,24 +104,28 @@ function startGame() {
     }
 
     score = 0;
-    timeLeft = 10; // Durasi permainan (detik)
+    timeLeft = 10;
     gameActive = true;
     
+    // Update UI Awal
     document.getElementById('scoreDisplay').textContent = score;
     document.getElementById('timerDisplay').textContent = timeLeft;
+    document.getElementById('newRecordMsg').textContent = "";
     
     switchScreen('screen-game');
 
-    // Timer Loop
+    // Mulai Timer
+    if (timerInterval) clearInterval(timerInterval);
     timerInterval = setInterval(() => {
         timeLeft--;
         document.getElementById('timerDisplay').textContent = timeLeft;
         
-        // Efek visual jika waktu mau habis (merah)
+        // Efek visual jika waktu mau habis (<= 3 detik)
+        const timerEl = document.getElementById('timerDisplay');
         if(timeLeft <= 3) {
-            document.getElementById('timerDisplay').parentElement.classList.add('text-red-500', 'animate-pulse');
+            timerEl.classList.add('scale-125', 'text-red-600');
         } else {
-            document.getElementById('timerDisplay').parentElement.classList.remove('text-red-500', 'animate-pulse');
+            timerEl.classList.remove('scale-125', 'text-red-600');
         }
 
         if(timeLeft <= 0) {
@@ -129,22 +137,28 @@ function startGame() {
 function registerClick(e) {
     if(!gameActive) return;
 
+    // 1. Tambah Skor
     score++;
     document.getElementById('scoreDisplay').textContent = score;
 
-    // Efek Partikel Angka Melayang
+    // 2. Efek Partikel (+1 Melayang)
+    // Menggunakan clientX/Y dari event mouse/touch
     createParticle(e.clientX, e.clientY);
     
-    // Efek visual tombol (JS trigger scale animation reset)
+    // 3. Efek Visual Tombol (Reset animasi scale)
     const btn = document.getElementById('clickBtn');
-    btn.classList.remove('scale-95');
-    void btn.offsetWidth; // trigger reflow
-    btn.classList.add('scale-95');
+    btn.classList.remove('active:scale-95'); // Hapus class tailwind sementara
+    btn.style.transform = "scale(0.90)"; // Manual set scale kecil
+    
+    setTimeout(() => {
+        btn.style.transform = "scale(1)"; // Kembalikan ke normal
+        btn.classList.add('active:scale-95'); // Kembalikan class tailwind
+    }, 50);
 }
 
 function createParticle(x, y) {
     const particle = document.createElement('div');
-    particle.classList.add('click-particle');
+    particle.classList.add('click-particle'); // Pastikan CSS .click-particle ada di style.css
     particle.textContent = "+1";
     particle.style.left = x + 'px';
     particle.style.top = y + 'px';
@@ -157,25 +171,27 @@ function endGame() {
     clearInterval(timerInterval);
     gameActive = false;
     
-    document.getElementById('finalScoreDisplay').textContent = score;
+    // 1. UPDATE SKOR AKHIR SEBELUM GANTI LAYAR
+    const finalScoreEl = document.getElementById('finalScoreDisplay');
+    if(finalScoreEl) {
+        finalScoreEl.textContent = score;
+    }
     
-    // Cek & Simpan High Score
+    // 2. Simpan High Score
     const name = document.getElementById('nicknameInput').value || "Anonymous";
     const isNewRecord = saveScore(name, score);
     
     const recordMsg = document.getElementById('newRecordMsg');
     if(isNewRecord) {
         recordMsg.textContent = i18n[currentLang].newRecord;
-        recordMsg.className = "text-sm mt-2 font-bold text-orange-500 animate-bounce";
+        recordMsg.classList.add('animate-bounce');
     } else {
         recordMsg.textContent = "";
+        recordMsg.classList.remove('animate-bounce');
     }
 
+    // 3. Pindah Layar
     switchScreen('screen-result');
-}
-
-function resetGame() {
-    startGame();
 }
 
 function backToMenu() {
@@ -186,19 +202,12 @@ function backToMenu() {
 // --- LEADERBOARD & STORAGE ---
 function saveScore(name, newScore) {
     let highScores = JSON.parse(localStorage.getItem('clickerHighScores')) || [];
-    
-    // Tambah skor baru
     highScores.push({ name: name, score: newScore });
-    
-    // Urutkan dari terbesar ke terkecil
     highScores.sort((a, b) => b.score - a.score);
-    
-    // Ambil top 5 saja
-    highScores = highScores.slice(0, 5);
-    
+    highScores = highScores.slice(0, 5); // Keep Top 5
     localStorage.setItem('clickerHighScores', JSON.stringify(highScores));
 
-    // Cek apakah skor ini masuk top 1
+    // Cek apakah skor ini adalah yang tertinggi saat ini
     return highScores.length > 0 && highScores[0].score === newScore && highScores[0].name === name;
 }
 
