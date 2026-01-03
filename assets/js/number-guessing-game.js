@@ -1,4 +1,4 @@
-// --- DATA BAHASA (Localization) ---
+// --- LOCALIZATION DATA ---
 const i18n = {
     id: {
         homeBtn: "Beranda",
